@@ -46,7 +46,16 @@ metode$metodekode <- rmv_wht(metode$metodekode)
 metode_conv <- metode %>%
   select(metodekode, metodenavn) %>%
   mutate(metodekode = as.character(metodekode)) %>%
-  filter(metodekode %in% c('70070','70231','70024','70152','30068','30020','60265','10002','10092','10057'))
+  filter(metodekode %in% c('70070','70231','70024','70152','30068','30020','60265','10002','10092','10057')) %>%
+  mutate(metodenavn_kort = case_when(grepl("immun", metodenavn, ignore.case = T) == TRUE ~ "immunhistochem",
+                                     grepl("cellekultur", metodenavn, ignore.case = T) == TRUE ~ "cell_culture",
+                                     grepl("antistoffer", metodenavn, ignore.case = T) == TRUE ~ "neutralization_AB",
+                                     grepl("RT-PCR med sekvensering", metodenavn, ignore.case = T) == TRUE ~ "RT_PCR_Seq",
+                                     grepl("påvisning med real-time RT-PCR", metodenavn, ignore.case = T) == TRUE ~ "RT_PCR",
+                                     grepl("Virusanalyser med PCR", metodenavn, ignore.case = T) == TRUE ~ "PCR",
+                                     grepl("sekvensering for karakterisering", metodenavn, ignore.case = T) == TRUE ~ "Seq",
+                                     grepl("Histopatologi", metodenavn, ignore.case = T) == TRUE ~ "hist"))
+
 
 konklusjon <- sqlFetch(journal_rapp, sqtable = "konklusjonsregister")
 
@@ -61,6 +70,13 @@ provemateriale_conv <- provemateriale %>%
   select(provematerialekode, provematerialenavn)
 
 resultat <- sqlFetch(journal_rapp, sqtable = "resultat")
+
+oppstalling <- sqlFetch(journal_rapp, sqtable = "oppstalling")
+
+oppstalling_conv <- oppstalling %>%
+  mutate(oppstallingkode = as.character(oppstallingkode)) %>%
+  select(oppstallingkode, oppstallingnavn)
+
 
 # Data queries
 myQuery <- "SELECT * 
@@ -84,12 +100,14 @@ filtered_data <- rawdata_clean %>%
   mutate(artkode = as.character(gsub("^0(.*?)$","\\1", artkode)),
          metodekode = as.character(gsub("^0(.*?)$", "\\1", metodekode)),
          konklusjonkode = as.character(gsub("^0(.*?)$", "\\1", konklusjonkode)),
-         provematerialekode = as.character(gsub("^0(.*?)$", "\\1", provematerialekode))) %>%
+         provematerialekode = as.character(gsub("^0(.*?)$", "\\1", provematerialekode)),
+         oppstallingkode = as.character(gsub("^0(.*?)$", "\\1", oppstallingkode))) %>%
   filter(metodekode %in% metode_conv$metodekode) %>%
   left_join(., artkoder_conv, by = "artkode") %>%
   left_join(., metode_conv, by = "metodekode") %>%
   left_join(., konklusjon_conv, by = "konklusjonkode") %>%
   left_join(., provemateriale_conv, by = "provematerialekode") %>%
+  left_join(., oppstalling_conv, by = "oppstallingkode") %>%
   mutate(analyttkode = case_when(analyttkode_funn == konkl_analyttkode ~ analyttkode_funn,
                                  TRUE ~ konkl_analyttkode)) %>%
   left_join(., analytt_conv, by = "analyttkode") %>%
@@ -104,21 +122,27 @@ filtered_data <- rawdata_clean %>%
          sak_avsluttet = as.Date(sak_avsluttet, "%d.%m.%y"),
          unik_id = paste(saksnr,provenummer,delprovenummer,undersokelsesnummer,resultatnummer,sep = "-")) %>%
   select(unik_id, aar,saksnr,provenummer,delprovenummer,provematerialenavn,mottatt_dato,sak_avsluttet,
-         avsluttet_dato,eier_lokalitetnr,eier_lokalitetstype,
-         eierreferanse,provematerialekode,metodenavn,artnavn,analyttnavn,
-         resultatnummer,konklusjonnavn) %>%
-  group_by(metodenavn, konklusjonnavn,analyttnavn) %>%
+         avsluttet_dato,eier_lokalitetnr,eier_lokalitetstype,oppstallingnavn,
+         eierreferanse,provematerialekode,metodenavn_kort,artnavn,analyttnavn,
+         resultatnummer,konklusjonnavn,kommunenr) %>%
+  group_by(metodenavn_kort, konklusjonnavn,analyttnavn) %>%
   mutate(ind = row_number()) %>%
-  spread(metodenavn,konklusjonnavn) %>%
+  spread(metodenavn_kort,konklusjonnavn) %>%
+  group_by(unik_id) %>%
+  mutate(analysis_count = 1:n(),
+         singleton = n() == 1) %>%
   ungroup() %>%
-  mutate(PD = )
-
-test <- reshape(filtered_data, timevar = "provenummer", idvar = "saksnr", direction = "wide")
-
-
-filtered_data$saksnr <- factor(filtered_data$saksnr)
-count(filtered_data, saksnr)
-
-
-
-
+  filter(singleton|analysis_count == 2) %>%
+  select(-analysis_count, -singleton, -ind) %>%
+  mutate(PD = case_when(cell_culture == "Påvist" ~ 1,
+                        hist == "Påvist" ~ 1,
+                        immunhistochem == "Påvist" ~ 1,
+                        RT_PCR == "Påvist" ~ 1,
+                        Seq == "Påvist" ~ 1,
+                        TRUE ~ 0)) %>%
+  group_by(PD,artnavn,oppstallingnavn,kommunenr) %>%
+  count() %>%
+  spread(PD, n, fill = 0) %>%
+  mutate(total = `0`+`1`,
+         pPD = `1`/total*100)
+  
