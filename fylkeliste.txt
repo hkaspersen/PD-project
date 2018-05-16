@@ -1,0 +1,423 @@
+Fylkesnummer	Fylker (18 stk)	Kommunenummer	Kommuner (422 stk)	Antall kommuner i fylket
+Nr. 01	Østfold	Nr. 0101	Halden	18 kommuner
+Nr. 01	Østfold	Nr. 0104	Moss	18 kommuner
+Nr. 01	Østfold	Nr. 0105	Sarpsborg	18 kommuner
+Nr. 01	Østfold	Nr. 0106	Fredrikstad	18 kommuner
+Nr. 01	Østfold	Nr. 0111	Hvaler	18 kommuner
+Nr. 01	Østfold	Nr. 0118	Aremark	18 kommuner
+Nr. 01	Østfold	Nr. 0119	Marker	18 kommuner
+Nr. 01	Østfold	Nr. 0121	Rømskog	18 kommuner
+Nr. 01	Østfold	Nr. 0122	Trøgstad	18 kommuner
+Nr. 01	Østfold	Nr. 0123	Spydeberg	18 kommuner
+Nr. 01	Østfold	Nr. 0124	Askim	18 kommuner
+Nr. 01	Østfold	Nr. 0125	Eidsberg	18 kommuner
+Nr. 01	Østfold	Nr. 0127	Skiptvet	18 kommuner
+Nr. 01	Østfold	Nr. 0128	Rakkestad	18 kommuner
+Nr. 01	Østfold	Nr. 0135	Råde	18 kommuner
+Nr. 01	Østfold	Nr. 0136	Rygge	18 kommuner
+Nr. 01	Østfold	Nr. 0137	Våler	18 kommuner
+Nr. 01	Østfold	Nr. 0138	Hobøl	18 kommuner
+Nr. 02	Akershus	Nr. 0211	Vestby	22 kommuner
+Nr. 02	Akershus	Nr. 0213	Ski	22 kommuner
+Nr. 02	Akershus	Nr. 0214	Ås	22 kommuner
+Nr. 02	Akershus	Nr. 0215	Frogn	22 kommuner
+Nr. 02	Akershus	Nr. 0216	Nesodden	22 kommuner
+Nr. 02	Akershus	Nr. 0217	Oppegård	22 kommuner
+Nr. 02	Akershus	Nr. 0219	Bærum	22 kommuner
+Nr. 02	Akershus	Nr. 0220	Asker	22 kommuner
+Nr. 02	Akershus	Nr. 0221	Aurskog-Høland	22 kommuner
+Nr. 02	Akershus	Nr. 0226	Sørum	22 kommuner
+Nr. 02	Akershus	Nr. 0227	Fet	22 kommuner
+Nr. 02	Akershus	Nr. 0228	Rælingen	22 kommuner
+Nr. 02	Akershus	Nr. 0229	Enebakk	22 kommuner
+Nr. 02	Akershus	Nr. 0230	Lørenskog	22 kommuner
+Nr. 02	Akershus	Nr. 0231	Skedsmo	22 kommuner
+Nr. 02	Akershus	Nr. 0233	Nittedal	22 kommuner
+Nr. 02	Akershus	Nr. 0234	Gjerdrum	22 kommuner
+Nr. 02	Akershus	Nr. 0235	Ullensaker	22 kommuner
+Nr. 02	Akershus	Nr. 0236	Nes	22 kommuner
+Nr. 02	Akershus	Nr. 0237	Eidsvoll	22 kommuner
+Nr. 02	Akershus	Nr. 0238	Nannestad	22 kommuner
+Nr. 02	Akershus	Nr. 0239	Hurdal	22 kommuner
+Nr. 03	Oslo	Nr. 0301	Oslo	1 kommune
+Nr. 04	Hedmark	NR. 0402	Kongsvinger	22 kommuner
+Nr. 04	Hedmark	Nr. 0403	Hamar	22 kommuner
+Nr. 04	Hedmark	Nr. 0412	Ringsaker	22 kommuner
+Nr. 04	Hedmark	Nr. 0415	Løten	22 kommuner
+Nr. 04	Hedmark	Nr. 0417	Stange	22 kommuner
+Nr. 04	Hedmark	Nr. 0418	Nord-Odal	22 kommuner
+Nr. 04	Hedmark	Nr. 0419	Sør-Odal	22 kommuner
+Nr. 04	Hedmark	Nr. 0420	Eidskog	22 kommuner
+Nr. 04	Hedmark	Nr. 0423	Grue	22 kommuner
+Nr. 04	Hedmark	Nr. 0425	Åsnes	22 kommuner
+Nr. 04	Hedmark	Nr. 0426	Våler	22 kommuner
+Nr. 04	Hedmark	Nr. 0427	Elverum	22 kommuner
+Nr. 04	Hedmark	Nr. 0428	Trysil	22 kommuner
+Nr. 04	Hedmark	Nr. 0429	Åmot	22 kommuner
+Nr. 04	Hedmark	Nr. 0430	Stor-Elvdal	22 kommuner
+Nr. 04	Hedmark	Nr. 0432	Rendalen	22 kommuner
+Nr. 04	Hedmark	Nr. 0434	Engerdal	22 kommuner
+Nr. 04	Hedmark	Nr. 0436	Tolga	22 kommuner
+Nr. 04	Hedmark	Nr. 0437	Tynset	22 kommuner
+Nr. 04	Hedmark	Nr. 0438	Alvdal	22 kommuner
+Nr. 04	Hedmark	Nr. 0439	Folldal	22 kommuner
+Nr. 04	Hedmark	Nr. 0441	Os	22 kommuner
+Nr. 05	Oppland	Nr. 0501	Lillehammer	26 kommuner
+Nr. 05	Oppland	Nr. 0502	Gjøvik	26 kommuner
+Nr. 05	Oppland	Nr. 0511	Dovre	26 kommuner
+Nr. 05	Oppland	Nr. 0512	Lesja	26 kommuner
+Nr. 05	Oppland	Nr. 0513	Skjåk	26 kommuner
+Nr. 05	Oppland	Nr. 0514	Lom	26 kommuner
+Nr. 05	Oppland	Nr. 0515	Vågå	26 kommuner
+Nr. 05	Oppland	Nr. 0516	Nord-Fron	26 kommuner
+Nr. 05	Oppland	Nr. 0517	Sel	26 kommuner
+Nr. 05	Oppland	Nr. 0519	Sør-Fron	26 kommuner
+Nr. 05	Oppland	Nr. 0520	Ringebu	26 kommuner
+Nr. 05	Oppland	Nr. 0521	Øyer	26 kommuner
+Nr. 05	Oppland	Nr. 0522	Gausdal	26 kommuner
+Nr. 05	Oppland	Nr. 0528	Østre Toten	26 kommuner
+Nr. 05	Oppland	Nr. 0529	Vestre Toten	26 kommuner
+Nr. 05	Oppland	Nr. 0532	Jevnaker	26 kommuner
+Nr. 05	Oppland	Nr. 0533	Lunner	26 kommuner
+Nr. 05	Oppland	Nr. 0534	Gran	26 kommuner
+Nr. 05	Oppland	Nr. 0536	Søndre Land	26 kommuner
+Nr. 05	Oppland	Nr. 0538	Nordre Land	26 kommuner
+Nr. 05	Oppland	Nr. 0540	Sør-Aurdal	26 kommuner
+Nr. 05	Oppland	Nr. 0541	Etnedal	26 kommuner
+Nr. 05	Oppland	Nr. 0542	Nord-Aurdal	26 kommuner
+Nr. 05	Oppland	Nr. 0543	Vestre Slidre	26 kommuner
+Nr. 05	Oppland	Nr. 0544	Øystre Slidre	26 kommuner
+Nr. 05	Oppland	Nr. 0545	Vang	26 kommuner
+Nr. 06	Buskerud	Nr. 0602	Drammen	21 kommuner
+Nr. 06	Buskerud	Nr. 0604	Kongsberg	21 kommuner
+Nr. 06	Buskerud	Nr. 0605	Ringerike	21kommuner
+Nr. 06	Buskerud	Nr. 0612	Hole	21 kommuner
+Nr. 06	Buskerud	Nr. 0615	Flå	21 kommuner
+Nr. 06	Buskerud	Nr. 0616	Nes	21 kommuner
+Nr. 06	Buskerud	Nr. 0617	Gol	21 kommuner
+Nr. 06	Buskerud	Nr. 0618	Hemsedal	21 kommuner
+Nr. 06	Buskerud	Nr. 0619	Ål	21kommuner
+Nr. 06	Buskerud	Nr. 0620	Hol	21 kommuner
+Nr. 06	Buskerud	Nr. 0621	Sigdal	21 kommuner
+Nr. 06	Buskerud	Nr. 0622	Krødsherad	21 kommuner
+Nr. 06	Buskerud	Nr. 0623	Modum	21 kommuner
+Nr. 06	Buskerud	Nr. 0624	Øvre Eiker	21 kommuner
+Nr. 06	Buskerud	Nr. 0625	Nedre Eiker	21kommuner
+Nr. 06	Buskerud	Nr. 0626	Lier	21 kommuner
+Nr. 06	Buskerud	Nr. 0627	Røyken	21 kommuner
+Nr. 06	Buskerud	Nr. 0628	Hurum	21 kommuner
+Nr. 06	Buskerud	Nr. 0631	Flesberg	21 kommuner
+Nr. 06	Buskerud	Nr. 0632	Rollag	21 kommuner
+Nr. 06	Buskerud	Nr. 0633	Nore og Uvdal	21 kommuner
+Nr. 07	Vestfold	Nr. 0701	Horten	9 kommuner
+Nr. 07	Vestfold	Nr. 0704	Tønsberg	9 kommuner
+Nr. 07	Vestfold	Nr. 0710	Sandefjord	9 kommuner
+Nr. 07	Vestfold	Nr. 0711	Svelvik	9 kommuner
+Nr. 07	Vestfold	Nr. 0712	Larvik	9 kommuner
+Nr. 07	Vestfold	Nr. 0713	Sande	9 kommuner
+Nr. 07	Vestfold	Nr. 0715	Holmestrand	9 kommuner
+Nr. 07	Vestfold	Nr. 0716	Re	9 kommuner
+Nr. 07	Vestfold	Nr. 0729	Færder	9 kommuner
+Nr. 08	Telemark	Nr. 0805	Porsgrunn	18 kommuner
+Nr. 08	Telemark	Nr. 0806	Skien	18 kommuner
+Nr. 08	Telemark	Nr. 0807	Notodden	18 kommuner
+Nr. 08	Telemark	Nr. 0811	Siljan	18 kommuner
+Nr. 08	Telemark	Nr. 0814	Bamble	18 kommuner
+Nr. 08	Telemark	Nr. 0815	Kragerø	18 kommuner
+Nr. 08	Telemark	Nr. 0817	Drangedal	18 kommuner
+Nr. 08	Telemark	Nr. 0819	Nome	18 kommuner
+Nr. 08	Telemark	Nr. 0821	Bø	18 kommuner
+Nr. 08	Telemark	Nr. 0822	Sauherad	18 kommuner
+Nr. 08	Telemark	Nr. 0826	Tinn	18 kommuner
+Nr. 08	Telemark	Nr. 0827	Hjartdal	18 kommuner
+Nr. 08	Telemark	Nr. 0828	Seljord	18 kommuner
+Nr. 08	Telemark	Nr. 0829	Kviteseid	18 kommuner
+Nr. 08	Telemark	Nr. 0830	Nissedal	18 kommuner
+Nr. 08	Telemark	Nr. 0831	Fyresdal	18 kommuner
+Nr. 08	Telemark	Nr. 0833	Tokke	18 kommuner
+Nr. 08	Telemark	Nr. 0834	Vinje	18 kommuner
+Nr. 09	Aust-Agder	Nr. 0901	Risør	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0904	Grimstad	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0906	Arendal	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0911	Gjerstad	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0912	Vegårshei	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0914	Tvedestrand	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0919	Froland	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0926	Lillesand	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0928	Birkenes	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0929	Åmli	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0935	Iveland	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0937	Evje og Hornnes	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0938	Bygland	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0940	Valle	15 kommuner
+Nr. 09	Aust-Agder	Nr. 0941	Bykle	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1001	Kristiansand	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1002	Mandal	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1003	Farsund	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1004	Flekkefjord	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1014	Vennesla	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1017	Songdalen	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1018	Søgne	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1021	Marnardal	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1026	Åseral	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1027	Audnedal	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1029	Lindesnes	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1032	Lyngdal	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1034	Hægebostad	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1037	Kvinesdal	15 kommuner
+Nr. 10	Vest-Agder	Nr. 1046	Sirdal	15 kommuner
+Nr. 11	Rogaland	Nr. 1101	Eigersund	26 kommuner
+Nr. 11	Rogaland	Nr. 1102	Sandnes	26 kommuner
+Nr. 11	Rogaland	Nr. 1103	Stavanger	26 kommuner
+Nr. 11	Rogaland	Nr. 1106	Haugesund	26 kommuner
+Nr. 11	Rogaland	Nr. 1111	Sokndal	26 kommuner
+Nr. 11	Rogaland	Nr. 1112	Lund	26 kommuner
+Nr. 11	Rogaland	Nr. 1114	Bjerkreim	26 kommuner
+Nr. 11	Rogaland	Nr. 1119	Hå	26 kommuner
+Nr. 11	Rogaland	Nr. 1120	Klepp	26 kommuner
+Nr. 11	Rogaland	Nr. 1121	Time	26 kommuner
+Nr. 11	Rogaland	Nr. 1122	Gjesdal	26 kommuner
+Nr. 11	Rogaland	Nr. 1124	Sola	26 kommuner
+Nr. 11	Rogaland	Nr. 1127	Randaberg	26 kommuner
+Nr. 11	Rogaland	Nr. 1129	Forsand	26 kommuner
+Nr. 11	Rogaland	Nr. 1130	Strand	26 kommuner
+Nr. 11	Rogaland	Nr. 1133	Hjelmeland	26 kommuner
+Nr. 11	Rogaland	Nr. 1134	Suldal	26 kommuner
+Nr. 11	Rogaland	Nr. 1135	Sauda	26 kommuner
+Nr. 11	Rogaland	Nr. 1141	Finnøy	26 kommuner
+Nr. 11	Rogaland	Nr. 1142	Rennesøy	26 kommuner
+Nr. 11	Rogaland	Nr. 1144	Kvitsøy	26 kommuner
+Nr. 11	Rogaland	Nr. 1145	Bokn	26 kommuner
+Nr. 11	Rogaland	Nr. 1146	Tysvær	26 kommuner
+Nr. 11	Rogaland	Nr. 1149	Karmøy	26 kommuner
+Nr. 11	Rogaland	Nr. 1151	Utsira	26 kommuner
+Nr. 11	Rogaland	Nr. 1160	Vindafjord	26 kommuner
+Nr. 12	Hordaland	Nr. 1201	Bergen	33 kommuner
+Nr. 12	Hordaland	Nr. 1211	Etne	33 kommuner
+Nr. 12	Hordaland	Nr. 1216	Sveio	33 kommuner
+Nr. 12	Hordaland	Nr. 1219	Bømlo	33 kommuner
+Nr. 12	Hordaland	Nr. 1221	Stord	33 kommuner
+Nr. 12	Hordaland	Nr. 1222	Fitjar	33 kommuner
+Nr. 12	Hordaland	Nr. 1223	Tysnes	33 kommuner
+Nr. 12	Hordaland	Nr. 1224	Kvinnherad	33 kommuner
+Nr. 12	Hordaland	Nr. 1227	Jondal	33 kommuner
+Nr. 12	Hordaland	Nr. 1228	Odda	33 kommuner
+Nr. 12	Hordaland	Nr. 1231	Ullensvang	33 kommuner
+Nr. 12	Hordaland	Nr. 1232	Eidfjord	33 kommuner
+Nr. 12	Hordaland	Nr. 1233	Ulvik	33 kommuner
+Nr. 12	Hordaland	Nr. 1234	Granvin	33 kommuner
+Nr. 12	Hordaland	Nr. 1235	Voss	33 kommuner
+Nr. 12	Hordaland	Nr. 1238	Kvam	33 kommuner
+Nr. 12	Hordaland	Nr. 1241	Fusa	33 kommuner
+Nr. 12	Hordaland	Nr. 1242	Samnanger	33 kommuner
+Nr. 12	Hordaland	Nr. 1243	Os	33 kommuner
+Nr. 12	Hordaland	Nr. 1244	Austevoll	33 kommuner
+Nr. 12	Hordaland	Nr. 1245	Sund	33 kommuner
+Nr. 12	Hordaland	Nr. 1246	Fjell	33 kommuner
+Nr. 12	Hordaland	Nr. 1247	Askøy	33 kommuner
+Nr. 12	Hordaland	Nr. 1251	Vaksdal	33 kommuner
+Nr. 12	Hordaland	Nr. 1252	Modalen	33 kommuner
+Nr. 12	Hordaland	Nr. 1253	Osterøy	33 kommuner
+Nr. 12	Hordaland	Nr. 1256	Meland	33 kommuner
+Nr. 12	Hordaland	Nr. 1259	Øygarden	33 kommuner
+Nr. 12	Hordaland	Nr. 1260	Radøy	33 kommuner
+Nr. 12	Hordaland	Nr. 1263	Lindås	33 kommuner
+Nr. 12	Hordaland	Nr. 1264	Austrheim	33 kommuner
+Nr. 12	Hordaland	Nr. 1265	Fedje	33 kommuner
+Nr. 12	Hordaland	Nr. 1266	Masfjorden	33 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1401	Flora	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1411	Gulen	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1412	Solund	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1413	Hyllestad	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1416	Høyanger	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1417	Vik	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1418	Balestrand	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1419	Leikanger	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1420	Sogndal	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1421	Aurland	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1422	Lærdal	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1424	Årdal	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1426	Luster	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1428	Askvoll	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1429	Fjaler	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1430	Gaular	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1431	Jølster	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1432	Førde	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1433	Naustdal	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1438	Bremanger	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1439	Vågsøy	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1441	Selje	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1443	Eid	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1444	Hornindal	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1445	Gloppen	26 kommuner
+Nr. 14	Sogn og Fjordane	Nr. 1449	Stryn	26 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1502	Molde	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1504	Ålesund	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1505	Kristiansund	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1511	Vanylven	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1514	Sande	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1515	Herøy	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1516	Ulstein	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1517	Hareid	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1519	Volda	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1520	Ørsta	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1523	Ørskog	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1524	Norddal	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1525	Stranda	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1526	Stordal	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1528	Sykkylven	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1529	Skodje	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1531	Sula	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1532	Giske	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1534	Haram	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1535	Vestnes	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1539	Rauma	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1543	Nesset	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1545	Midsund	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1546	Sandøy	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1547	Aukra	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1548	Fræna	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1551	Eide	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1554	Averøy	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1557	Gjemnes	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1560	Tingvoll	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1563	Sunndal	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1566	Surnadal	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1567	Rindal	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1571	Halsa	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1573	Smøla	36 kommuner
+Nr. 15	Møre og Romsdal	Nr. 1576	Aure	36 kommuner
+Nr. 50	Trøndelag	Nr. 5001	Trondheim	47 kommuner
+Nr. 50	Trøndelag	Nr. 5004	Steinkjer	47 kommuner
+Nr. 50	Trøndelag	Nr. 5005	Namsos	47 kommuner
+Nr. 50	Trøndelag	Nr. 5011	Hemne	47 kommuner
+Nr. 50	Trøndelag	Nr. 5012	Snillfjord	47 kommuner
+Nr. 50	Trøndelag	Nr. 5013	Hitra	47 kommuner
+Nr. 50	Trøndelag	Nr. 5014	Frøya	47 kommuner
+Nr. 50	Trøndelag	Nr. 5015	Ørland	47 kommuner
+Nr. 50	Trøndelag	Nr. 5016	Agdenes	47 kommuner
+Nr. 50	Trøndelag	Nr. 5017	Bjugn	47 kommuner
+Nr. 50	Trøndelag	Nr. 5018	Åfjord	47 kommuner
+Nr. 50	Trøndelag	Nr. 5019	Roan	47 kommuner
+Nr. 50	Trøndelag	Nr. 5020	Osen	47 kommuner
+Nr. 50	Trøndelag	Nr. 5021	Oppdal	47 kommuner
+Nr. 50	Trøndelag	Nr. 5022	Rennebu	47 kommuner
+Nr. 50	Trøndelag	Nr. 5023	Meldal	47 kommuner
+Nr. 50	Trøndelag	Nr. 5024	Orkdal	47 kommuner
+Nr. 50	Trøndelag	Nr. 5025	Røros	47 kommuner
+Nr. 50	Trøndelag	Nr. 5026	Holtålen	47 kommuner
+Nr. 50	Trøndelag	Nr. 5027	Midtre Gauldal	47 kommuner
+Nr. 50	Trøndelag	Nr. 5028	Melhus	47 kommuner
+Nr. 50	Trøndelag	Nr. 5029	Skaun	47 kommuner
+Nr. 50	Trøndelag	Nr. 5030	Klæbu	47 kommuner
+Nr. 50	Trøndelag	Nr. 5031	Malvik	47 kommuner
+Nr. 50	Trøndelag	Nr. 5032	Selbu	47 kommuner
+Nr. 50	Trøndelag	Nr. 5033	Tydal	47 kommuner
+Nr. 50	Trøndelag	Nr. 5034	Meråker	47 kommuner
+Nr. 50	Trøndelag	Nr. 5035	Stjørdal	47 kommuner
+Nr. 50	Trøndelag	Nr. 5036	Frosta	47 kommuner
+Nr. 50	Trøndelag	Nr. 5037	Levanger	47 kommuner
+Nr. 50	Trøndelag	Nr. 5038	Verdal	47 kommuner
+Nr. 50	Trøndelag	Nr. 5039	Verran	47 kommuner
+Nr. 50	Trøndelag	Nr. 5040	Namdalseid	47 kommuner
+Nr. 50	Trøndelag	Nr. 5041	Snåase – Snåsa	47 kommuner
+Nr. 50	Trøndelag	Nr. 5042	Lierne	47 kommuner
+Nr. 50	Trøndelag	Nr. 5043	Raarvihke – Røyrvik	47 kommuner
+Nr. 50	Trøndelag	Nr. 5044	Namsskogan	47 kommuner
+Nr. 50	Trøndelag	Nr. 5045	Grong	47 kommuner
+Nr. 50	Trøndelag	Nr. 5046	Høylandet	47 kommuner
+Nr. 50	Trøndelag	Nr. 5047	Overhalla	47 kommuner
+Nr. 50	Trøndelag	Nr. 5048	Fosnes	47 kommuner
+Nr. 50	Trøndelag	Nr. 5049	Flatanger	47 kommuner
+Nr. 50	Trøndelag	Nr. 5050	Vikna	47 kommuner
+Nr. 50	Trøndelag	Nr. 5051	Nærøy	47 kommuner
+Nr. 50	Trøndelag	Nr. 5052	Leka	47 kommuner
+Nr. 50	Trøndelag	Nr. 5053	Inderøy	47 kommuner
+Nr. 50	Trøndelag	Nr. 5054	Indre Fosen	47 kommuner
+Nr. 18	Nordland	Nr. 1804	Bodø	44 kommuner
+Nr. 18	Nordland	Nr. 1805	Narvik	44 kommuner
+Nr. 18	Nordland	Nr. 1811	Bindal	44 kommuner
+Nr. 18	Nordland	Nr. 1812	Sømna	44 kommuner
+Nr. 18	Nordland	Nr. 1813	Brønnøy	44 kommuner
+Nr. 18	Nordland	Nr. 1815	Vega	44 kommuner
+Nr. 18	Nordland	Nr. 1816	Vevelstad	44 kommuner
+Nr. 18	Nordland	Nr. 1818	Herøy	44 kommuner
+Nr. 18	Nordland	Nr. 1820	Alstahaug	44 kommuner
+Nr. 18	Nordland	Nr. 1822	Leirfjord	44 kommuner
+Nr. 18	Nordland	Nr. 1824	Vefsn	44 kommuner
+Nr. 18	Nordland	Nr. 1825	Grane	44 kommuner
+Nr. 18	Nordland	Nr. 1826	Hattfjelldal	44 kommuner
+Nr. 18	Nordland	Nr. 1827	Dønna	44 kommuner
+Nr. 18	Nordland	Nr. 1828	Nesna	44 kommuner
+Nr. 18	Nordland	Nr. 1832	Hemnes	44 kommuner
+Nr. 18	Nordland	Nr. 1833	Rana	44 kommuner
+Nr. 18	Nordland	Nr. 1834	Lurøy	44 kommuner
+Nr. 18	Nordland	Nr. 1835	Træna	44 kommuner
+Nr. 18	Nordland	Nr. 1836	Rødøy	44 kommuner
+Nr. 18	Nordland	Nr. 1837	Meløy	44 kommuner
+Nr. 18	Nordland	Nr. 1838	Gildeskål	44 kommuner
+Nr. 18	Nordland	Nr. 1839	Beiarn	44 kommuner
+Nr. 18	Nordland	Nr. 1840	Saltdal	44 kommuner
+Nr. 18	Nordland	Nr. 1841	Fauske – Fuossko	44 kommuner
+Nr. 18	Nordland	Nr. 1845	Sørfold	44 kommuner
+Nr. 18	Nordland	Nr. 1848	Steigen	44 kommuner
+Nr. 18	Nordland	Nr. 1849	Hamarøy – Hábmer	44 kommuner
+Nr. 18	Nordland	Nr. 1850	Divtasvuodna – Tysfjord	44 kommuner
+Nr. 18	Nordland	Nr. 1851	Lødingen	44 kommuner
+Nr. 18	Nordland	Nr. 1852	Tjeldsund	44 kommuner
+Nr. 18	Nordland	Nr. 1853	Evenes	44 kommuner
+Nr. 18	Nordland	Nr. 1854	Ballangen	44 kommuner
+Nr. 18	Nordland	Nr. 1856	Røst	44 kommuner
+Nr. 18	Nordland	Nr. 1857	Værøy	44 kommuner
+Nr. 18	Nordland	Nr. 1859	Flakstad	44 kommuner
+Nr. 18	Nordland	Nr. 1860	Vestvågøy	44 kommuner
+Nr. 18	Nordland	Nr. 1865	Vågan	44 kommuner
+Nr. 18	Nordland	Nr. 1866	Hadsel	44 kommuner
+Nr. 18	Nordland	Nr. 1867	Bø	44 kommuner
+Nr. 18	Nordland	Nr. 1868	Øksnes	44 kommuner
+Nr. 18	Nordland	Nr. 1870	Sortland – Suortá	44 kommuner
+Nr. 18	Nordland	Nr. 1871	Andøy	44 kommuner
+Nr. 18	Nordland	Nr. 1874	Moskenes	44 kommuner
+Nr. 19	Troms – Romsa	Nr. 1903	Harstad – Hárstták	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1902	Tromsø	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1911	Kvæfjord	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1913	Skånland	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1917	Ibestad	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1919	Gratangen	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1920	Loabák – Lavangen	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1922	Bardu	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1923	Salangen	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1924	Målselv	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1925	Sørreisa	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1926	Dyrøy	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1927	Tranøy	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1928	Torsken	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1929	Berg	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1931	Lenvik	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1933	Balsfjord	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1936	Karlsøy	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1938	Lyngen	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1939	Storfjord – Omasvuotna – Omasvuono	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1940	Gáivuotna – Kåfjord – Kaivuono	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1941	Skjervøy	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1942	Nordreisa	24 kommuner
+Nr. 19	Troms – Romsa	Nr. 1943	Kvænangen	24 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2002	Vardø	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2003	Vadsø	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2004	Hammerfest	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2011	Guovdageaidnu – Kautokeino	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2012	Alta	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2014	Loppa	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2015	Hasvik	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2017	Kvalsund	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2018	Måsøy	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2019	Nordkapp	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2020	Porsanger – Porsá?gu – Porsanki	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2021	Kárášjohka – Karasjok	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2022	Lebesby	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2023	Gamvik	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2024	Berlevåg	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2025	Deatnu – Tana	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2027	Unjárga – Nesseby	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2028	Båtsfjord	19 kommuner
+Nr. 20	Finnmark – Finnmárku	Nr. 2030	Sør-Varanger	19 kommuner
