@@ -40,6 +40,8 @@ conv_tables <- fetch_sql_tables(journal_rapp) %>%
   filter_analytes(.) %>%
   filter_methods(.)
 
+list2env(conv_tables, envir = .GlobalEnv)
+
 # Data queries
 myQuery <- "SELECT * 
 FROM V1_SAK_M_RES_EIER 
@@ -55,3 +57,8 @@ odbcCloseAll()
 ## Get municipality and county data
 municipality <- import_municipality()
 counties <- import_counties()
+
+## Data wrangling
+rawdata_clean <- rawdata %>%
+  remove_whitespace_data(.) %>%
+  create_report(.)

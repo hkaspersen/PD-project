@@ -124,7 +124,7 @@ remove_zero_code <- function(column) {
 }
 
 # Wrangle data frame to report
-data_wrangle <- function(df) {
+create_report <- function(df) {
   df <- df %>%
     filter(konkl_analyttkode %in% analyttkoder$analyttkode) %>%
     mutate_at(
@@ -173,6 +173,11 @@ data_wrangle <- function(df) {
         undersokelsesnummer,
         resultatnummer,
         sep = "-"
+      ),
+      method_id = paste(
+        saksnr,
+        provenummer,
+        sep = "-"
       )
     ) %>%
     select(
@@ -181,6 +186,7 @@ data_wrangle <- function(df) {
       mottatt_dato,
       avsluttet_dato,
       saksnr,
+      method_id,
       eier_lokalitetnr,
       NAVN,
       fylkenr,
