@@ -50,18 +50,18 @@ fix_codes <- function(df) {
 }
 
 # Filter correct analytes
-filter_analytes <- function(df) {
-  df <- df %>%
+filter_analytes <- function(list) {
+  list[["analyttkoder"]] <- list[["analyttkoder"]] %>%
     filter(analyttkode %in% c("1220104",
                               "122010402",
                               "122010403",
                               "1502010235"))
-  return(df)
+  return(list)
 }
 
 # Filter correct methods
-filter_methods <- function(df) {
-  df <- df %>%
+filter_methods <- function(list) {
+  list[["metode"]] <- list[["metode"]] %>%
     mutate(
       metodenavn_kort = case_when(
         grepl("immun", metodenavn, ignore.case = T) == TRUE ~ "immunhistochem",
@@ -75,6 +75,7 @@ filter_methods <- function(df) {
         grepl("Histopatologi", metodenavn, ignore.case = T) == TRUE ~ "hist"
       )
     )
+  return(list)
 }
 
 # Import municipality data from kartverket
@@ -91,7 +92,8 @@ import_municipality <- function() {
     rename(kommunenr = Kodeverdi,
            kommunenavn = X.U.FEFF.Navn) %>%
     select(kommunenr, kommunenavn, Status, Oppdatert) %>%
-    filter(Status == "Gyldig")
+    filter(Status == "Gyldig") %>%
+    select(kommunenr, kommunenavn)
   return(municipality)
 }
 
@@ -115,19 +117,28 @@ remove_whitespace_data <- function(df) {
   return(df)
 }
 
+# Remove leading zero from column
+remove_zero_code <- function(column) {
+  x <- as.character(gsub("^0(.*?)$", "\\1", column))
+  return(x)
+}
+
 # Wrangle data frame to report
 data_wrangle <- function(df) {
   df <- df %>%
     filter(konkl_analyttkode %in% analyttkoder$analyttkode) %>%
-    mutate(
-      artkode = as.character(gsub("^0(.*?)$", "\\1", artkode)),
-      metodekode = as.character(gsub("^0(.*?)$", "\\1", metodekode)),
-      konklusjonkode = as.character(gsub("^0(.*?)$", "\\1", konklusjonkode)),
-      provematerialekode = as.character(gsub("^0(.*?)$", "\\1", provematerialekode)),
-      oppstallingkode = as.character(gsub("^0(.*?)$", "\\1", oppstallingkode)),
-      hensiktkode = as.character(gsub("^0(.*?)$", "\\1", hensiktkode)),
-      fylkenr = gsub("^(.*?)[0-9][0-9]$", "\\1", kommunenr)
+    mutate_at(
+      .vars = c(
+        "artkode",
+        "metodekode",
+        "konklusjonkode",
+        "provematerialekode",
+        "oppstallingkode",
+        "hensiktkode"
+      ),
+      .funs = remove_zero_code
     ) %>%
+    mutate(fylkenr = gsub("^(.*?)[0-9][0-9]$", "\\1", kommunenr)) %>%
     filter(metodekode %in% metode$metodekode) %>%
     left_join(., artkoder, by = "artkode") %>%
     left_join(., metode, by = "metodekode") %>%
@@ -194,7 +205,7 @@ data_wrangle <- function(df) {
     ) %>%
     ungroup() %>%
     filter(singleton | analysis_count == 2) %>%
-    select(-analysis_count,-singleton,-ind) %>%
+    select(-analysis_count, -singleton, -ind) %>%
     group_by(metodenavn_kort, konklusjonnavn, analyttnavn) %>%
     spread(metodenavn_kort, konklusjonnavn) %>%
     mutate(

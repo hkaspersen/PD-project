@@ -35,14 +35,10 @@ journal_rapp <- odbcDriverConnect(
 
 # Fetch available tables from connection
 
-conv_tables <- fetch_sql_tables(journal_rapp)
-conv_tables_clean <- lapply(conv_tables, clean_sql_tables)
-
-list2env(conv_tables_clean, envir = .GlobalEnv)
-
-analyttkoder <- filter_analytes(analyttkoder)
-metode <- filter_methods(metode)
-
+conv_tables <- fetch_sql_tables(journal_rapp) %>%
+  lapply(., clean_sql_tables) %>%
+  filter_analytes(.) %>%
+  filter_methods(.)
 
 # Data queries
 myQuery <- "SELECT * 
