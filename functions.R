@@ -4,6 +4,37 @@ rmv_wht <- function(column) gsub('\\s+', '', column)
 # Paste together unique values from columns
 func_paste <- function(x) paste(unique(x))
 
+# Import municipality data from kartverket
+import_municipality <- function() {
+  municipality <-
+    read.csv(
+      "https://register.geonorge.no/subregister/sosi-kodelister/kartverket/kommunenummer.csv?",
+      sep = ";",
+      encoding = "UTF-8"
+    )
+  
+  municipality <- municipality %>%
+    mutate(Kodeverdi = sprintf("%04d", Kodeverdi)) %>%
+    rename(kommunekode = Kodeverdi,
+           kommunenavn = X.U.FEFF.Navn) %>%
+    select(kommunekode, kommunenavn, Status, Oppdatert) %>%
+    filter(Status == "Gyldig") %>%
+    select(kommunekode, kommunenavn)
+  return(municipality)
+}
+
+# Import county data from table
+import_counties <- function() {
+  counties <- read.table("fylkeliste.txt", sep = "\t", stringsAsFactors = F, header = TRUE) %>%
+    select(Fylkesnummer,Fylker..18.stk.) %>%
+    rename(fylkekode = Fylkesnummer,
+           fylkenavn = Fylker..18.stk.) %>%
+    group_by(fylkekode) %>%
+    summarise_all(funs(func_paste)) %>%
+    mutate(fylkekode = gsub("Nr. (.*?)", "\\1", fylkekode))
+  return(counties)
+}
+
 # Fetch sql tables from connection
 fetch_sql_tables <- function(connection) {
   analyttkoder <- sqlFetch(connection, sqtable = "analytt")
@@ -15,15 +46,21 @@ fetch_sql_tables <- function(connection) {
   provemateriale <- sqlFetch(connection, sqtable = "provemateriale")
   oppstalling <- sqlFetch(connection, sqtable = "oppstalling")
   driftsform <- sqlFetch(connection, sqtable = "driftsform")
+  municipality <- import_municipality()
+  counties <- import_counties()
   table_list <-
-    lst(analyttkoder,
-         artkoder,
-         hensikt,
-         metode,
-         konklusjon,
-         provemateriale,
-         oppstalling,
-        driftsform)
+    lst(
+      analyttkoder,
+      artkoder,
+      hensikt,
+      metode,
+      konklusjon,
+      provemateriale,
+      oppstalling,
+      driftsform,
+      municipality,
+      counties
+    )
   return(table_list)
 }
 
@@ -78,38 +115,6 @@ filter_methods <- function(list) {
   return(list)
 }
 
-# Import municipality data from kartverket
-import_municipality <- function() {
-  municipality <-
-    read.csv(
-      "https://register.geonorge.no/subregister/sosi-kodelister/kartverket/kommunenummer.csv?",
-      sep = ";",
-      encoding = "UTF-8"
-    )
-  
-  municipality <- municipality %>%
-    mutate(Kodeverdi = sprintf("%04d", Kodeverdi)) %>%
-    rename(kommunenr = Kodeverdi,
-           kommunenavn = X.U.FEFF.Navn) %>%
-    select(kommunenr, kommunenavn, Status, Oppdatert) %>%
-    filter(Status == "Gyldig") %>%
-    select(kommunenr, kommunenavn)
-  return(municipality)
-}
-
-# Import county data from table
-import_counties <- function() {
-  counties <- read.table("fylkeliste.txt", sep = "\t", stringsAsFactors = F, header = TRUE) %>%
-    select(Fylkesnummer,Fylker..18.stk.) %>%
-    rename(fylkenr = Fylkesnummer,
-           fylkenavn = Fylker..18.stk.) %>%
-    group_by(fylkenr) %>%
-    summarise_all(funs(func_paste)) %>%
-    mutate(fylkenr = gsub("Nr. (.*?)", "\\1", fylkenr),
-           fylkenr = rmv_wht(fylkenr))
-  return(counties)
-}
-
 # Removes whitespace from data frame and converts all columns to character
 remove_whitespace_data <- function(df) {
   df <- as.data.frame(lapply(df, rmv_wht)) %>%
@@ -126,7 +131,7 @@ remove_zero_code <- function(column) {
 # Wrangle data frame to report
 create_report <- function(df) {
   df <- df %>%
-    filter(konkl_analyttkode %in% analyttkoder$analyttkode) %>%
+    filter(konkl_analyttkode %in% conv_tables[["analyttkoder"]][,1]) %>%
     mutate_at(
       .vars = c(
         "artkode",
@@ -138,24 +143,16 @@ create_report <- function(df) {
       ),
       .funs = remove_zero_code
     ) %>%
-    mutate(fylkenr = gsub("^(.*?)[0-9][0-9]$", "\\1", kommunenr)) %>%
-    filter(metodekode %in% metode$metodekode) %>%
-    left_join(., artkoder, by = "artkode") %>%
-    left_join(., metode, by = "metodekode") %>%
-    left_join(., konklusjon, by = "konklusjonkode") %>%
-    left_join(., provemateriale, by = "provematerialekode") %>%
-    left_join(., oppstalling, by = "oppstallingkode") %>%
-    left_join(., subset(municipality, select = c(kommunenr, kommunenavn)), by = "kommunenr") %>%
-    left_join(., driftsform, by = "driftsformkode") %>%
-    left_join(., counties, by = "fylkenr") %>%
-    left_join(., hensikt, by = "hensiktkode") %>%
+    mutate(fylkekode = gsub("^(.*?)[0-9][0-9]$", "\\1", kommunenr)) %>%
+    rename(kommunekode = kommunenr) %>%
+    filter(metodekode %in% conv_tables[["metode"]][,1]) %>%
     mutate(
       analyttkode = case_when(
         analyttkode_funn == konkl_analyttkode ~ analyttkode_funn,
         TRUE ~ konkl_analyttkode
       )
     ) %>%
-    left_join(., analyttkoder, by = "analyttkode") %>%
+    reduce(conv_tables, left_join, .init = .) %>%
     mutate(
       artnavn = factor(artnavn),
       analyttnavn = factor(analyttnavn),
@@ -189,7 +186,7 @@ create_report <- function(df) {
       method_id,
       eier_lokalitetnr,
       NAVN,
-      fylkenr,
+      fylkekode,
       fylkenavn,
       kommunenavn,
       hensiktnavn,
