@@ -1,8 +1,10 @@
 # Remove whitespace in column(s)
-rmv_wht <- function(column) gsub('\\s+', '', column)
+rmv_wht <- function(column)
+  gsub('\\s+', '', column)
 
 # Paste together unique values from columns
-func_paste <- function(x) paste(unique(x))
+func_paste <- function(x)
+  paste(unique(x))
 
 # Import municipality data from kartverket
 import_municipality <- function() {
@@ -25,8 +27,14 @@ import_municipality <- function() {
 
 # Import county data from table
 import_counties <- function() {
-  counties <- read.table("fylkeliste.txt", sep = "\t", stringsAsFactors = F, header = TRUE) %>%
-    select(Fylkesnummer,Fylker..18.stk.) %>%
+  counties <-
+    read.table(
+      "fylkeliste.txt",
+      sep = "\t",
+      stringsAsFactors = F,
+      header = TRUE
+    ) %>%
+    select(Fylkesnummer, Fylker..18.stk.) %>%
     rename(fylkekode = Fylkesnummer,
            fylkenavn = Fylker..18.stk.) %>%
     group_by(fylkekode) %>%
@@ -92,7 +100,11 @@ filter_analytes <- function(list) {
     filter(analyttkode %in% c("1220104",
                               "122010402",
                               "122010403",
-                              "1502010235"))
+                              "1502010235")) %>%
+    mutate(analyttkode = case_when(analyttkode == "1220104" |
+                                     analyttkode == "122010402" |
+                                     analyttkode == "122010403" ~ paste0("0",analyttkode),
+                                   TRUE ~ analyttkode))
   return(list)
 }
 
@@ -131,7 +143,7 @@ remove_zero_code <- function(column) {
 # Wrangle data frame to report
 create_report <- function(df) {
   df <- df %>%
-    filter(konkl_analyttkode %in% conv_tables[["analyttkoder"]][,1]) %>%
+    filter(konkl_analyttkode %in% conv_tables[["analyttkoder"]][, 1]) %>%
     mutate_at(
       .vars = c(
         "artkode",
@@ -145,7 +157,7 @@ create_report <- function(df) {
     ) %>%
     mutate(fylkekode = gsub("^(.*?)[0-9][0-9]$", "\\1", kommunenr)) %>%
     rename(kommunekode = kommunenr) %>%
-    filter(metodekode %in% conv_tables[["metode"]][,1]) %>%
+    filter(metodekode %in% conv_tables[["metode"]][, 1]) %>%
     mutate(
       analyttkode = case_when(
         analyttkode_funn == konkl_analyttkode ~ analyttkode_funn,
@@ -171,11 +183,9 @@ create_report <- function(df) {
         resultatnummer,
         sep = "-"
       ),
-      method_id = paste(
-        saksnr,
-        provenummer,
-        sep = "-"
-      )
+      method_id = paste(saksnr,
+                        provenummer,
+                        sep = "-")
     ) %>%
     select(
       unik_id,
@@ -191,13 +201,13 @@ create_report <- function(df) {
       kommunenavn,
       hensiktnavn,
       provematerialenavn,
-      metodenavn,
-      metodenavn_kort,
       artnavn,
       oppstallingnavn,
       driftsformnavn,
       analyttnavn,
       resultatnummer,
+      metodenavn,
+      metodenavn_kort,
       konklusjonnavn
     ) %>%
     group_by(unik_id) %>%
@@ -208,18 +218,7 @@ create_report <- function(df) {
     ) %>%
     ungroup() %>%
     filter(singleton | analysis_count == 2) %>%
-    select(-analysis_count, -singleton, -ind) %>%
-    group_by(metodenavn_kort, konklusjonnavn, analyttnavn) %>%
-    spread(metodenavn_kort, konklusjonnavn) %>%
-    mutate(
-      PD = case_when(
-        cell_culture == "Påvist" ~ 1,
-        hist == "Påvist" ~ 1,
-        immunhistochem == "Påvist" ~ 1,
-        RT_PCR == "Påvist" ~ 1,
-        Seq == "Påvist" ~ 1,
-        TRUE ~ 0
-      )
-    )
+    select(-analysis_count,-singleton,-ind)
+  
   return(df)
 }
