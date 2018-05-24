@@ -218,7 +218,7 @@ create_report <- function(df) {
     ) %>%
     ungroup() %>%
     filter(singleton | analysis_count == 2) %>%
-    select(-analysis_count,-singleton,-ind)
+    select(-analysis_count,-singleton,-ind) %>%
   
   return(df)
 }

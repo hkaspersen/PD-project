@@ -59,5 +59,5 @@ odbcCloseAll()
 
 # Data wrangling
 rawdata_clean <- rawdata %>%
-  remove_whitespace_data(.)
+  remove_whitespace_data(.) %>%
   create_report(.)
