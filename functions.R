@@ -1,3 +1,13 @@
+## Functions for PD_script.R
+
+## -------------------------------- Output Paths ----------------------------------
+
+stats_output <- "K:\\FAG\\EksterneDatakilder\\Fiskesykdom\\PD\\Formaterte data\\Statistikk_R\\"
+
+report_output <- "K:\\FAG\\EksterneDatakilder\\Fiskesykdom\\PD\\Formaterte data\\Rapport_R\\"
+
+## ---------------------------------- General -------------------------------------
+
 # Remove whitespace in column(s)
 rmv_wht <- function(column)
   gsub('\\s+', '', column)
@@ -5,6 +15,29 @@ rmv_wht <- function(column)
 # Paste together unique values from columns
 func_paste <- function(x)
   paste(unique(x))
+
+month_names <-
+  data.frame(
+    month_number = c(
+      '01',
+      '02',
+      '03',
+      '04',
+      '05',
+      '06',
+      '07',
+      '08',
+      '09',
+      '10',
+      '11',
+      '12'
+    ),
+    month_name = month.name
+  ) %>%
+  mutate(month_number = as.character(month_number),
+         month_name = as.character(month_name))
+
+## ------------------------------ Importing Data ----------------------------------
 
 # Import municipality data from kartverket
 import_municipality <- function() {
@@ -69,6 +102,8 @@ fetch_sql_tables <- function(connection) {
     )
   return(table_list)
 }
+
+## ----------------------------- Data Wrangling --------------------------------------
 
 # Clean sql tables
 clean_sql_tables <- function(df) {
@@ -246,15 +281,38 @@ create_report <- function(df) {
   return(df)
 }
 
-month_names <- data.frame(month_number = c('01','02','03','04','05','06','07','08','09','10','11','12'),
-                          month_name = month.name) %>%
-  mutate(month_number = as.character(month_number),
-         month_name = as.character(month_name))
-
-## Statistics
+## -------------------------------- Statistics ----------------------------------------------
 
 # Calculates 95 % confidence intervals
 get_binCI <- function(x, n) as.numeric(setNames(binom.test(x,n)$conf.int*100,
                                                 c("lwr", "upr")))
 
+# Calculate basic statistics on selected values
+calc_stats <- function(df, group_var) {
+  count_cols <- as.character(unique(df$konklusjonnavn))
+  
+  df <- df %>%
+    group_by_at(.vars= vars(group_var, konklusjonnavn)) %>%
+    count() %>%
+    spread(konklusjonnavn, n, fill = 0) %>%
+    ungroup() %>%
+    mutate(total = rowSums(.[,count_cols]),
+           pPD = Påvist/total*100) %>%
+    rowwise() %>%
+    mutate(lwr = get_binCI(Påvist, total)[1],
+           upr = get_binCI(Påvist, total)[2])
+  return(df)
+}
 
+## ------------------------ Saving Data Frames to Disk -------------------------------------
+
+# Saves each df in list as a .txt file in specified directory
+save_df_from_list <- function(list, output_dir) {
+  lapply(names(list), function(x)
+    write.table(
+      list[[x]],
+      file = paste0(output_dir, x, ".txt"),
+      sep = "\t",
+      row.names = F
+    ))
+}
