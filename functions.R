@@ -45,7 +45,6 @@ import_counties <- function() {
 
 # Fetch sql tables from connection
 fetch_sql_tables <- function(connection) {
-  analyttkoder <- sqlFetch(connection, sqtable = "analytt")
   artkoder <- sqlFetch(connection, sqtable = "art")
   hensikt <- sqlFetch(connection, sqtable = "hensikt")
   metode <- sqlFetch(connection, sqtable = "metode")
@@ -58,7 +57,6 @@ fetch_sql_tables <- function(connection) {
   counties <- import_counties()
   table_list <-
     lst(
-      analyttkoder,
       artkoder,
       hensikt,
       metode,
@@ -95,8 +93,8 @@ fix_codes <- function(df) {
 }
 
 # Filter correct analytes
-filter_analytes <- function(list) {
-  list[["analyttkoder"]] <- list[["analyttkoder"]] %>%
+filter_analytes <- function(df) {
+  df <- df %>%
     filter(analyttkode %in% c("1220104",
                               "122010402",
                               "122010403",
@@ -105,12 +103,22 @@ filter_analytes <- function(list) {
                                      analyttkode == "122010402" |
                                      analyttkode == "122010403" ~ paste0("0",analyttkode),
                                    TRUE ~ analyttkode))
-  return(list)
+  return(df)
 }
 
 # Filter correct methods
 filter_methods <- function(list) {
   list[["metode"]] <- list[["metode"]] %>%
+    filter(metodekode %in% c("70070",
+                             "70231",
+                             "70024",
+                             "70152",
+                             "30068",
+                             "30020",
+                             "60265",
+                             "10002",
+                             "10092",
+                             "10057")) %>%
     mutate(
       metodenavn_kort = case_when(
         grepl("immun", metodenavn, ignore.case = T) == TRUE ~ "immunhistochem",
@@ -140,12 +148,31 @@ remove_zero_code <- function(column) {
   return(x)
 }
 
+# Function for correct filtering of analyte codes
+henteUt <- function(x) {
+  if (nrow(x) == 1)
+    return(x)
+  LV <- logical(nrow(x))
+  for (i in 1:nrow(x)) {
+    if(is.na(x[i,]$analyttkode_funn) | is.na(x[i,]$konkl_analyttkode)){
+      LV[i] <- T
+    } else{
+      LV[i] <- !(x[i, ]$analyttkode_funn %in% x$konkl_analyttkode)
+      if (x[i, ]$analyttkode_funn == x[i, ]$konkl_analyttkode) 
+        LV[i] <- T
+    }
+  }
+  return(x[LV,])
+}
+
+
 # Wrangle data frame to report
 create_report <- function(df) {
   df <- df %>%
-    filter(konkl_analyttkode %in% conv_tables[["analyttkoder"]][, 1]) %>%
     mutate_at(
       .vars = c(
+        "analyttkode_funn",
+        "konkl_analyttkode",
         "artkode",
         "metodekode",
         "konklusjonkode",
@@ -157,17 +184,25 @@ create_report <- function(df) {
     ) %>%
     mutate(fylkekode = gsub("^(.*?)[0-9][0-9]$", "\\1", kommunenr)) %>%
     rename(kommunekode = kommunenr) %>%
-    filter(metodekode %in% conv_tables[["metode"]][, 1]) %>%
-    mutate(
-      analyttkode = case_when(
-        analyttkode_funn == konkl_analyttkode ~ analyttkode_funn,
-        TRUE ~ konkl_analyttkode
-      )
-    ) %>%
     reduce(conv_tables, left_join, .init = .) %>%
+    left_join(., analyttkoder, by = c("konkl_analyttkode" = "analyttkode")) %>%
+    rename(konkl_analyttnavn = analyttnavn) %>%
+    left_join(., analyttkoder, by = c("analyttkode_funn" = "analyttkode")) %>%
+    rename(analyttnavn_funn = analyttnavn) %>%
+    filter(analyttkode_funn %in% c("1220104",
+                                   "122010402",
+                                   "122010403",
+                                   "1502010235",
+                                   NA) &
+             konkl_analyttkode %in% c("1220104",
+                                      "122010402",
+                                      "122010403",
+                                      "1502010235",
+                                      NA)) %>%
     mutate(
       artnavn = factor(artnavn),
-      analyttnavn = factor(analyttnavn),
+      konkl_analyttnavn = factor(konkl_analyttnavn),
+      analyttnavn_funn = factor(analyttnavn_funn),
       metodenavn = factor(metodenavn),
       konklusjonnavn = factor(konklusjonnavn),
       provematerialenavn = factor(provematerialenavn),
@@ -182,10 +217,7 @@ create_report <- function(df) {
         undersokelsesnummer,
         resultatnummer,
         sep = "-"
-      ),
-      method_id = paste(saksnr,
-                        provenummer,
-                        sep = "-")
+      )
     ) %>%
     select(
       unik_id,
@@ -193,7 +225,6 @@ create_report <- function(df) {
       mottatt_dato,
       avsluttet_dato,
       saksnr,
-      method_id,
       eier_lokalitetnr,
       NAVN,
       fylkekode,
@@ -204,21 +235,13 @@ create_report <- function(df) {
       artnavn,
       oppstallingnavn,
       driftsformnavn,
-      analyttnavn,
+      konkl_analyttnavn,
+      analyttnavn_funn,
       resultatnummer,
       metodenavn,
       metodenavn_kort,
       konklusjonnavn
-    ) %>%
-    group_by(unik_id) %>%
-    mutate(
-      analysis_count = 1:n(),
-      singleton = n() == 1,
-      ind = row_number()
-    ) %>%
-    ungroup() %>%
-    filter(singleton | analysis_count == 2) %>%
-    select(-analysis_count,-singleton,-ind) %>%
+    )
   
   return(df)
 }
