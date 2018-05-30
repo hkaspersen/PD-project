@@ -245,3 +245,16 @@ create_report <- function(df) {
   
   return(df)
 }
+
+month_names <- data.frame(month_number = c('01','02','03','04','05','06','07','08','09','10','11','12'),
+                          month_name = month.name) %>%
+  mutate(month_number = as.character(month_number),
+         month_name = as.character(month_name))
+
+## Statistics
+
+# Calculates 95 % confidence intervals
+get_binCI <- function(x, n) as.numeric(setNames(binom.test(x,n)$conf.int*100,
+                                                c("lwr", "upr")))
+
+
