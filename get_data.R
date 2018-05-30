@@ -37,8 +37,11 @@ journal_rapp <- odbcDriverConnect(
 # Fetch available tables from connection, and also county and municipality data
 conv_tables <- fetch_sql_tables(journal_rapp) %>%
   lapply(., clean_sql_tables) %>%
-  filter_analytes(.) %>%
   filter_methods(.)
+
+analyttkoder <- sqlFetch(journal_rapp, sqtable = "analytt") %>%
+  clean_sql_tables(.)
+
 
 # Data queries
 myQuery <- "SELECT * 
@@ -50,7 +53,17 @@ hensiktkode LIKE '01001%' OR
 hensiktkode LIKE '08001%')
 AND (artkode LIKE '01%' OR 
 artkode LIKE '02%' OR 
-artkode LIKE '04%')"
+artkode LIKE '04%')
+AND (metodekode = '070070' OR
+metodekode = '070231' OR
+metodekode = '070024' OR
+metodekode = '070152' OR
+metodekode = '030068' OR
+metodekode = '030020' OR
+metodekode = '060265' OR
+metodekode = '010002' OR
+metodekode = '010092' OR
+metodekode = '010057')"
 
 rawdata <- sqlQuery(journal_rapp, query = myQuery, as.is = TRUE)
 
@@ -58,6 +71,23 @@ rawdata <- sqlQuery(journal_rapp, query = myQuery, as.is = TRUE)
 odbcCloseAll()
 
 # Data wrangling
+
 rawdata_clean <- rawdata %>%
   remove_whitespace_data(.) %>%
-  create_report(.)
+  mutate(saksnr = paste(aar, ansvarlig_seksjon, innsendelsesnummer, sep = "-"),
+         unik_id = paste(
+           saksnr,
+           provenummer,
+           delprovenummer,
+           undersokelsesnummer,
+           resultatnummer,
+           sep = "-"
+         ))
+
+data_list <- split(rawdata_clean, rawdata_clean$unik_id)
+filtered_data_list <- lapply(data_list, function(x) henteUt(x))
+filtered_data <- do.call(rbind, filtered_data_list)
+
+final_report <- create_report(filtered_data)
+
+
