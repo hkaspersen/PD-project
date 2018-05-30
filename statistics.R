@@ -2,60 +2,13 @@
 
 # Basic statistics
 
-pPD_methods <- final_report %>%
-  group_by(metodenavn_kort, konklusjonnavn) %>%
-  count() %>%
-  spread(konklusjonnavn, n, fill = 0) %>%
-  ungroup() %>%
-  mutate(total = rowSums(.[2:7]),
-         pPD = Påvist/total*100) %>%
-  rowwise() %>%
-  mutate(lwr = get_binCI(Påvist, total)[1],
-         upr = get_binCI(Påvist, total)[2])
+stat_tables <- lst(pPD_total = calc_stats(stats_df, "konklusjonnavn"),
+                    pPD_methods = calc_stats(stats_df, "metodenavn_kort"),
+                    pPD_over_time = calc_stats(stats_df, "month_name"),
+                    pPD_county = calc_stats(stats_df, "fylkenavn"),
+                    pPD_municipality = calc_stats(stats_df, "kommunenavn"),
+                    pPD_locality = calc_stats(stats_df, "NAVN"))
 
-pPD_over_time <- final_report %>%
-  filter(!is.na(avsluttet_dato),
-         !is.na(konklusjonnavn)) %>%
-  mutate(month_number = as.character(format(mottatt_dato, "%m"))) %>%
-  left_join(., month_names, by = "month_number") %>%
-  group_by(month_name, konklusjonnavn) %>%
-  count() %>%
-  spread(konklusjonnavn, n, fill = 0) %>%
-  ungroup() %>%
-  mutate(total = rowSums(.[2:6]),
-         pPD = Påvist/total*100) %>%
-  rowwise() %>%
-  mutate(lwr = get_binCI(Påvist, total)[1],
-         upr = get_binCI(Påvist, total)[2])
-
-pPD_county <- final_report %>%
-  filter(!is.na(avsluttet_dato),
-         !is.na(konklusjonnavn)) %>%
-  group_by(fylkenavn, konklusjonnavn) %>%
-  count() %>%
-  spread(konklusjonnavn, n, fill = 0) %>%
-  ungroup() %>%
-  mutate(total = rowSums(.[2:6]),
-         pPD = Påvist/total*100) %>%
-  rowwise() %>%
-  mutate(lwr = get_binCI(Påvist, total)[1],
-         upr = get_binCI(Påvist, total)[2])
-
-pPD_municipality <- final_report %>%
-  filter(!is.na(avsluttet_dato),
-         !is.na(konklusjonnavn)) %>%
-  group_by(kommunenavn, konklusjonnavn) %>%
-  count() %>%
-  spread(konklusjonnavn, n, fill = 0) %>%
-  ungroup() %>%
-  mutate(total = rowSums(.[2:6]),
-         pPD = Påvist/total*100) %>%
-  rowwise() %>%
-  mutate(lwr = get_binCI(Påvist, total)[1],
-         upr = get_binCI(Påvist, total)[2])
-
-
-
-
+invisible(save_df_from_list(stat_tables, stats_output))
 
 
