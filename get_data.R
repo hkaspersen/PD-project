@@ -88,6 +88,7 @@ data_list <- split(rawdata_clean, rawdata_clean$unik_id)
 filtered_data_list <- lapply(data_list, function(x) henteUt(x))
 filtered_data <- do.call(rbind, filtered_data_list)
 
-final_report <- create_report(filtered_data)
+final_report <- create_report(filtered_data) %>%
+  filter(!is.na(konklusjonnavn))
 
 
