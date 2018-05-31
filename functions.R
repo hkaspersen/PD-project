@@ -288,11 +288,12 @@ get_binCI <- function(x, n) as.numeric(setNames(binom.test(x,n)$conf.int*100,
                                                 c("lwr", "upr")))
 
 # Calculate basic statistics on selected values
-calc_stats <- function(df, group_var) {
+calc_stats <- function(df, group_var1, group_var2 = NULL) {
   count_cols <- as.character(unique(df$konklusjonnavn))
   
+  if (is.null(group_var2)) {
   df <- df %>%
-    group_by_at(.vars= vars(group_var, konklusjonnavn)) %>%
+    group_by_at(.vars= vars(group_var1, konklusjonnavn)) %>%
     count() %>%
     spread(konklusjonnavn, n, fill = 0) %>%
     ungroup() %>%
@@ -301,6 +302,18 @@ calc_stats <- function(df, group_var) {
     rowwise() %>%
     mutate(lwr = get_binCI(Påvist, total)[1],
            upr = get_binCI(Påvist, total)[2])
+  } else {
+    df <- df %>%
+      group_by_at(.vars= vars(group_var1, group_var2, konklusjonnavn)) %>%
+      count() %>%
+      spread(konklusjonnavn, n, fill = 0) %>%
+      ungroup() %>%
+      mutate(total = rowSums(.[,count_cols]),
+             pPD = Påvist/total*100) %>%
+      rowwise() %>%
+      mutate(lwr = get_binCI(Påvist, total)[1],
+             upr = get_binCI(Påvist, total)[2])
+  }
   return(df)
 }
 
