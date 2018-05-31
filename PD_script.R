@@ -4,6 +4,8 @@ library(tibble)
 library(rlist)
 library(xtable)
 library(jsonlite)
+library(leaflet)
+library(ggrepel)
 
 ## Import functions
 source("functions.R")
