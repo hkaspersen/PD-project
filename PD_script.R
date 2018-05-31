@@ -2,7 +2,8 @@ library(tidyverse)
 library(RODBC)
 library(tibble)
 library(rlist)
-library(pander)
+library(xtable)
+library(jsonlite)
 
 ## Import functions
 source("functions.R")

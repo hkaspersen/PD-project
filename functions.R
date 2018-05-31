@@ -184,7 +184,7 @@ remove_zero_code <- function(column) {
 }
 
 # Function for correct filtering of analyte codes
-henteUt <- function(x) {
+select_analytes <- function(x) {
   if (nrow(x) == 1)
     return(x)
   LV <- logical(nrow(x))
