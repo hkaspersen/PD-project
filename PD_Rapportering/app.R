@@ -1,40 +1,31 @@
 library(shiny)
+library(shinythemes)
 
 ## -------------------------------------- UI ------------------------------------------
 
-ui <- fluidPage(
-   
-   # Application title
-   titlePanel("Pancreas Disease in Norwegian Fish"),
-   
-   sidebarLayout(
+ui <- shinyUI(
+  fluidPage(
+    theme = shinytheme("slate"),
+    navbarPage(title = "Pancreas Disease in Norwegian Fish"),
+    sidebarLayout(
+      position = "left",
       sidebarPanel(
-         sliderInput("bins",
-                     "Number of bins:",
-                     min = 1,
-                     max = 50,
-                     value = 30)
-      ),
-      
-      # Show a plot of the generated distribution
+        fluidRow(
+          column(4,checkboxGroupInput("artnavn", "Species:",
+                                      choices = unique(stats_df$artnavn))),
+          column(3,checkboxGroupInput("aar", "Year:",
+                                      choices = unique(stats_df$aar)))
+      )),
       mainPanel(
-         plotOutput("distPlot")
+        tabsetPanel(type = "tabs",
+                    tabPanel("Plot"),
+                    tabPanel("Data"),
+                    tabPanel("Code"))
       )
-   )
+    )
+  )
+  
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
