@@ -81,7 +81,7 @@ rawdata_clean <- rawdata %>%
          ))
 
 data_list <- split(rawdata_clean, rawdata_clean$unik_id)
-filtered_data_list <- lapply(data_list, function(x) henteUt(x))
+filtered_data_list <- lapply(data_list, function(x) select_analytes(x))
 filtered_data <- do.call(rbind, filtered_data_list)
 
 final_report <- create_report(filtered_data)
@@ -90,6 +90,8 @@ stats_df <- final_report %>%
   filter(!is.na(konklusjonnavn)) %>%
   mutate(month_number = as.character(format(mottatt_dato, "%m"))) %>%
   left_join(., month_names, by = "month_number")
+
+
 
 
 test <- xtable(final_report)
