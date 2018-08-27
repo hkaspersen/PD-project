@@ -9,3 +9,5 @@ PJS_password.txt
 oversikt_pd_prover.txt
 test_scripts.R
 lokreg_oppdatert.txt
+*.txt
+testing_script.R
