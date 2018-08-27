@@ -47,19 +47,23 @@ WHERE aar = 2018 AND
 hensiktkode LIKE '07%' OR 
 hensiktkode LIKE '01001%' OR 
 hensiktkode LIKE '08001%')
-AND (artkode LIKE '01%' OR 
+OR (artkode LIKE '01%' OR 
 artkode LIKE '02%' OR 
 artkode LIKE '04%')
-AND (metodekode = '070070' OR
+OR (metodekode = '070070' OR
 metodekode = '070231' OR
 metodekode = '070024' OR
-metodekode = '070152' OR
-metodekode = '030068' OR
-metodekode = '030020' OR
 metodekode = '060265' OR
-metodekode = '010002' OR
 metodekode = '010092' OR
-metodekode = '010057')"
+metodekode = '010057')
+OR (analyttkode_funn = '1220104' OR
+analyttkode_funn = '0122010402' OR
+analyttkode_funn = '0122010403' OR
+analyttkode_funn = '1502010235')
+OR (konkl_analyttkode = '1220104' OR
+konkl_analyttkode = '0122010402' OR
+konkl_analyttkode = '0122010403' OR
+konkl_analyttkode = '1502010235')"
 
 rawdata <- sqlQuery(journal_rapp, query = myQuery, as.is = TRUE)
 
@@ -90,11 +94,3 @@ stats_df <- final_report %>%
   filter(!is.na(konklusjonnavn)) %>%
   mutate(month_number = as.character(format(mottatt_dato, "%m"))) %>%
   left_join(., month_names, by = "month_number")
-
-
-
-
-test <- xtable(final_report)
-print.xtable(test, type = "latex", file = paste0(report_output,"PD_Report.tex"))
-
-
