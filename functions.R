@@ -200,7 +200,6 @@ select_analytes <- function(x) {
   return(x[LV,])
 }
 
-
 # Wrangle data frame to report
 create_report <- function(df) {
   df <- df %>%
@@ -224,16 +223,6 @@ create_report <- function(df) {
     rename(konkl_analyttnavn = analyttnavn) %>%
     left_join(., analyttkoder, by = c("analyttkode_funn" = "analyttkode")) %>%
     rename(analyttnavn_funn = analyttnavn) %>%
-    filter(analyttkode_funn %in% c("1220104",
-                                   "122010402",
-                                   "122010403",
-                                   "1502010235",
-                                   NA) &
-             konkl_analyttkode %in% c("1220104",
-                                      "122010402",
-                                      "122010403",
-                                      "1502010235",
-                                      NA)) %>%
     mutate(
       artnavn = factor(artnavn),
       konkl_analyttnavn = factor(konkl_analyttnavn),
@@ -252,9 +241,11 @@ create_report <- function(df) {
         undersokelsesnummer,
         resultatnummer,
         sep = "-"
-      )
+      ),
+      provenr = paste(saksnr, provenummer, sep = "-")
     ) %>%
     select(
+      provenr,
       unik_id,
       aar,
       mottatt_dato,
@@ -277,7 +268,6 @@ create_report <- function(df) {
       metodenavn_kort,
       konklusjonnavn
     )
-  
   return(df)
 }
 
