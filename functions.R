@@ -153,20 +153,7 @@ filter_methods <- function(list) {
                              "60265",
                              "10002",
                              "10092",
-                             "10057")) %>%
-    mutate(
-      metodenavn_kort = case_when(
-        grepl("immun", metodenavn, ignore.case = T) == TRUE ~ "immunhistochem",
-        grepl("cellekultur", metodenavn, ignore.case = T) == TRUE |
-          grepl("Bakterier og sopp", metodenavn, ignore.case = T) == TRUE ~ "cell_culture",
-        grepl("antistoffer", metodenavn, ignore.case = T) == TRUE ~ "neutralization_AB",
-        grepl("RT-PCR med sekvensering", metodenavn, ignore.case = T) == TRUE ~ "RT_PCR_Seq",
-        grepl("påvisning med real-time RT-PCR", metodenavn, ignore.case = T) == TRUE ~ "RT_PCR",
-        grepl("Virusanalyser med PCR", metodenavn, ignore.case = T) == TRUE ~ "PCR",
-        grepl("sekvensering for karakterisering", metodenavn, ignore.case = T) == TRUE ~ "Seq",
-        grepl("Histopatologi", metodenavn, ignore.case = T) == TRUE ~ "hist"
-      )
-    )
+                             "10057"))
   return(list)
 }
 
@@ -200,6 +187,31 @@ select_analytes <- function(x) {
   return(x[LV,])
 }
 
+filter_and_create_no <- function(df) {
+  df <- df %>%
+    # removes whitespace from all columns
+    remove_whitespace_data(.) %>%
+    # test for correct analyte codes
+    mutate(test = case_when(grepl("01220104", analyttkode_funn) == TRUE |
+                              grepl("01220104", konkl_analyttkode) == TRUE |
+                              analyttkode_funn == "1502010235" |
+                              konkl_analyttkode == "1502010235" |
+                              is.na(analyttkode_funn) == TRUE |
+                              is.na(konkl_analyttkode) == TRUE ~ 1,
+                            TRUE ~ 0),
+           # filters out the cases where both analytes are NA
+           test2 = case_when(is.na(analyttkode_funn) == TRUE &
+                               is.na(konkl_analyttkode) == TRUE ~ 0,
+                             TRUE ~ test)) %>%
+    filter(test2 == 1) %>%
+    select(-c(test, test2)) %>%
+    mutate(id_no = 1:n(),
+           saksnr = paste(aar, ansvarlig_seksjon, innsendelsesnummer, sep = "-"),
+           provenr = paste(saksnr, provenummer, sep = "-"))
+  return(df)
+}
+
+
 # Wrangle data frame to report
 create_report <- function(df) {
   df <- df %>%
@@ -212,7 +224,8 @@ create_report <- function(df) {
         "konklusjonkode",
         "provematerialekode",
         "oppstallingkode",
-        "hensiktkode"
+        "hensiktkode",
+        "kjennelse_resultat"
       ),
       .funs = remove_zero_code
     ) %>%
@@ -233,20 +246,10 @@ create_report <- function(df) {
       saksnr = paste(aar, ansvarlig_seksjon, innsendelsesnummer, sep = "-"),
       mottatt_dato = as.Date(mottatt_dato, "%d.%m.%y"),
       avsluttet_dato = as.Date(avsluttet_dato, "%d.%m.%y"),
-      sak_avsluttet = as.Date(sak_avsluttet, "%d.%m.%y"),
-      unik_id = paste(
-        saksnr,
-        provenummer,
-        delprovenummer,
-        undersokelsesnummer,
-        resultatnummer,
-        sep = "-"
-      ),
-      provenr = paste(saksnr, provenummer, sep = "-")
+      sak_avsluttet = as.Date(sak_avsluttet, "%d.%m.%y")
     ) %>%
     select(
       provenr,
-      unik_id,
       aar,
       mottatt_dato,
       avsluttet_dato,
@@ -262,14 +265,31 @@ create_report <- function(df) {
       oppstallingnavn,
       driftsformnavn,
       konkl_analyttnavn,
+      konklusjonnavn,
       analyttnavn_funn,
-      resultatnummer,
-      metodenavn,
-      metodenavn_kort,
-      konklusjonnavn
+      resultatnavn,
+      metodenavn
     )
   return(df)
 }
+
+# creates one line per sample in data frame, with conclusion for each method used
+fix_report <- function(df) {
+  df <- df %>%
+    filter(!is.na(avsluttet_dato)) %>%
+    mutate(konklusjonnavn = paste(konklusjonnavn, konkl_analyttnavn, sep = " "),
+           resultatnavn = paste(resultatnavn, analyttnavn_funn, sep = " ")) %>%
+    select(-c(konkl_analyttnavn, analyttnavn_funn)) %>%
+    group_by(provenr) %>%
+    mutate(id = 1:n()) %>%
+    spread(metodenavn, resultatnavn) %>%
+    summarise_all(funs(func_paste2)) %>%
+    select(-id)
+  return(df)
+}
+
+
+func_paste2 <- function(x) paste(unique(x[!is.na(x)]), collapse = ", ")
 
 ## -------------------------------- Statistics ----------------------------------------------
 
