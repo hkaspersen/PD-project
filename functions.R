@@ -192,25 +192,29 @@ filter_and_create_no <- function(df) {
     # removes whitespace from all columns
     remove_whitespace_data(.) %>%
     # test for correct analyte codes
-    mutate(test = case_when(grepl("01220104", analyttkode_funn) == TRUE |
-                              grepl("01220104", konkl_analyttkode) == TRUE |
-                              analyttkode_funn == "1502010235" |
-                              konkl_analyttkode == "1502010235" |
-                              is.na(analyttkode_funn) == TRUE |
-                              is.na(konkl_analyttkode) == TRUE ~ 1,
-                            TRUE ~ 0),
-           # filters out the cases where both analytes are NA
-           test2 = case_when(is.na(analyttkode_funn) == TRUE &
-                               is.na(konkl_analyttkode) == TRUE ~ 0,
-                             TRUE ~ test)) %>%
-    filter(test2 == 1) %>%
-    select(-c(test, test2)) %>%
+    mutate(analyttkode = paste(analyttkode_funn, konkl_analyttkode, sep = "_"),
+           test = case_when(grepl("01220104", analyttkode) == TRUE |
+                              grepl("1502010235", analyttkode) == TRUE ~ 1,
+                            TRUE ~ 0)) %>%
+    filter(test == 1) %>%
+    mutate(konklusjonkode = ifelse(grepl("01220104", konkl_analyttkode) == TRUE |
+                                     grepl("1502010235", konkl_analyttkode) == TRUE,
+                                   konklusjonkode, NA),
+           kjennelse_resultat = ifelse(grepl("01220104", analyttkode_funn) == TRUE |
+                                         grepl("1502010235", analyttkode_funn) == TRUE,
+                                       kjennelse_resultat, NA),
+           analyttkode_funn = ifelse(grepl("01220104", analyttkode_funn) == TRUE |
+                                       grepl("1502010235", analyttkode_funn) == TRUE,
+                                     analyttkode_funn, NA),
+           konkl_analyttkode = ifelse(grepl("01220104", konkl_analyttkode) == TRUE |
+                                        grepl("1502010235", konkl_analyttkode) == TRUE,
+                                      konkl_analyttkode, NA)) %>%
+    select(-test) %>%
     mutate(id_no = 1:n(),
            saksnr = paste(aar, ansvarlig_seksjon, innsendelsesnummer, sep = "-"),
            provenr = paste(saksnr, provenummer, sep = "-"))
   return(df)
 }
-
 
 # Wrangle data frame to report
 create_report <- function(df) {
@@ -273,23 +277,46 @@ create_report <- function(df) {
   return(df)
 }
 
+# collapses data frame on similar values, paste dissimilar
+func_paste2 <- function(x) paste(unique(x[!is.na(x)]), collapse = ", ")
+
+# scans through string of dates and returns the newest date
+scan_max <- function(x) max(scan(text = x, what = "", sep = ",", quiet = TRUE, strip.white = TRUE))
+
 # creates one line per sample in data frame, with conclusion for each method used
 fix_report <- function(df) {
   df <- df %>%
-    filter(!is.na(avsluttet_dato)) %>%
     mutate(konklusjonnavn = paste(konklusjonnavn, konkl_analyttnavn, sep = " "),
            resultatnavn = paste(resultatnavn, analyttnavn_funn, sep = " ")) %>%
+    mutate_at(vars(c(konklusjonnavn, resultatnavn)),
+              funs(gsub(" NA", "", .))) %>%
+    mutate_at(vars(c(konklusjonnavn, resultatnavn)),
+              funs(gsub("NA", NA, .))) %>%
     select(-c(konkl_analyttnavn, analyttnavn_funn)) %>%
+    mutate(metodenavn = case_when(grepl("RT-PCR", metodenavn) == TRUE ~ "RT-PCR",
+                                  grepl("sekvensering", metodenavn) == TRUE ~ "Sekvensering",
+                                  grepl("Cellekultur", metodenavn) == TRUE ~ "Cellekultur",
+                                  grepl("immun", metodenavn) == TRUE ~ "Immunhistokjemi",
+                                  grepl("Histopatologi", metodenavn) == TRUE ~ "Histopatologi")) %>%
     group_by(provenr) %>%
-    mutate(id = 1:n()) %>%
-    spread(metodenavn, resultatnavn) %>%
+    mutate(id = 1:n(),
+           RT_PCR_avsl_dato = ifelse(metodenavn == "RT-PCR",
+                                     as.character(avsluttet_dato), NA)) %>%
+    spread(metodenavn, resultatnavn, fill = NA) %>%
+    select(-`<NA>`) %>%
     summarise_all(funs(func_paste2)) %>%
-    select(-id)
+    select(-c(id, konklusjonnavn)) %>%
+    mutate_at(vars(c(avsluttet_dato,
+                     RT_PCR_avsl_dato,
+                     `RT-PCR`,
+                     Sekvensering,
+                     Cellekultur,
+                     Immunhistokjemi,
+                     Histopatologi)),
+              funs(gsub("^$", NA, .))) %>%
+    mutate(avsluttet_dato = as.Date(sapply(avsluttet_dato, scan_max)))
   return(df)
 }
-
-
-func_paste2 <- function(x) paste(unique(x[!is.na(x)]), collapse = ", ")
 
 ## -------------------------------- Statistics ----------------------------------------------
 
