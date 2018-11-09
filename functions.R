@@ -8,6 +8,9 @@ report_output <- "K:\\FAG\\EksterneDatakilder\\Fiskesykdom\\PD\\Formaterte data\
 
 ## ---------------------------------- General -------------------------------------
 
+# Inverts %in%
+"%not_in%" <- Negate("%in%") 
+
 # Remove whitespace in column(s)
 rmv_wht <- function(column)
   gsub('\\s+', '', column)
@@ -171,21 +174,21 @@ remove_zero_code <- function(column) {
 }
 
 # Function for correct filtering of analyte codes
-select_analytes <- function(x) {
-  if (nrow(x) == 1)
-    return(x)
-  LV <- logical(nrow(x))
-  for (i in 1:nrow(x)) {
-    if(is.na(x[i,]$analyttkode_funn) | is.na(x[i,]$konkl_analyttkode)){
-      LV[i] <- T
-    } else{
-      LV[i] <- !(x[i, ]$analyttkode_funn %in% x$konkl_analyttkode)
-      if (x[i, ]$analyttkode_funn == x[i, ]$konkl_analyttkode) 
-        LV[i] <- T
-    }
-  }
-  return(x[LV,])
-}
+# select_analytes <- function(x) {
+#   if (nrow(x) == 1)
+#     return(x)
+#   LV <- logical(nrow(x))
+#   for (i in 1:nrow(x)) {
+#     if(is.na(x[i,]$analyttkode_funn) | is.na(x[i,]$konkl_analyttkode)){
+#       LV[i] <- T
+#     } else{
+#       LV[i] <- !(x[i, ]$analyttkode_funn %in% x$konkl_analyttkode)
+#       if (x[i, ]$analyttkode_funn == x[i, ]$konkl_analyttkode) 
+#         LV[i] <- T
+#     }
+#   }
+#   return(x[LV,])
+# }
 
 filter_and_create_no <- function(df) {
   df <- df %>%
@@ -326,7 +329,65 @@ fix_report <- function(df) {
 ## "Aktuell_rapport" under maanedsrapporter (overwrite), and also in its respective folder
 ## for that current month and date.
 
+# Filter out samples with wrong registering in PJS
+filter_errors <- function(df) {
+  df <- df %>%
+    mutate(test = case_when(is.na(avsluttet_dato) == FALSE &
+                              is.na(Cellekultur) == TRUE &
+                              is.na(Histopatologi) == TRUE &
+                              is.na(Immunhistokjemi) == TRUE &
+                              is.na(`RT-PCR`) == TRUE ~ 1,
+                            TRUE ~ 0)) %>%
+    filter(test == 1)
+  return(df)
+}
 
+# Create one row per saksnr, with summarised results per method
+create_saksnr_report <- function(df) {
+  df <- df %>%
+    group_by(saksnr) %>%
+    summarise_all(funs(func_paste2)) %>%
+    ungroup() %>%
+    rename("antall_prover" = provenr) %>%
+    mutate(
+      antall_prover = antall_prover %>%
+        strsplit(split = ",") %>%
+        sapply(function(x)
+          length(unique(x))),
+      Cellekultur = case_when(
+        grepl("Mistanke", Cellekultur) == TRUE ~ "Mistanke",
+        grepl("Påvist", Cellekultur) == TRUE ~ "Påvist",
+        grepl("Ikke påvist", Cellekultur) == TRUE ~ "Ikke påvist",
+        Cellekultur == "" ~ "Ikke utført"
+      ),
+      Histopatologi = case_when(
+        grepl("Mistanke", Histopatologi) == TRUE ~ "Mistanke",
+        grepl("Påvist", Histopatologi) == TRUE ~ "Påvist",
+        grepl("Ikke påvist", Histopatologi) == TRUE ~ "Ikke påvist",
+        Histopatologi == "" ~ "Ikke utført"
+      ),
+      Immunhistokjemi = case_when(
+        grepl("Mistanke", Immunhistokjemi) == TRUE ~ "Mistanke",
+        grepl("Påvist", Immunhistokjemi) == TRUE ~ "Påvist",
+        grepl("Ikke påvist", Immunhistokjemi) == TRUE ~ "Ikke påvist",
+        Immunhistokjemi == "" ~ "Ikke utført"
+      ),
+      `RT-PCR` = case_when(
+        grepl("Mistanke", `RT-PCR`) == TRUE ~ "Mistanke",
+        grepl("Påvist", `RT-PCR`) == TRUE ~ "Påvist",
+        grepl("Ikke påvist", `RT-PCR`) == TRUE ~ "Ikke påvist",
+        `RT-PCR` == "" ~ "Ikke utført"
+      )
+    ) %>%
+    mutate(
+      methods = apply(.[c("Cellekultur", "Histopatologi", "Immunhistokjemi", "RT-PCR")], 1, function(x)
+        sum(x == "Påvist")),
+      Resultat = ifelse(methods > 1, "Påvist PD", "Mistanke om PD"),
+      Sekvensering = ifelse(Sekvensering == "", "Ikke utført", str_extract(Sekvensering, "SAV[0-9]"))
+    ) %>%
+    select(-methods)
+  return(df)
+}
 
 
 
