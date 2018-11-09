@@ -318,6 +318,18 @@ fix_report <- function(df) {
   return(df)
 }
 
+## TODO: add function that creates report for all data so far in current year. 
+## Create file: report_DATE, with extra column with final result for each saksnr.
+## If one method == påvist, then new column == "Mistanke om". If two methods == påvist,
+## then new column == Påvist, and all earlier results change to Påvist for that saksnr.
+## Reset results when the fish have been slaughtered. Renew report once a day in the folder 
+## "Aktuell_rapport" under maanedsrapporter (overwrite), and also in its respective folder
+## for that current month and date.
+
+
+
+
+
 ## -------------------------------- Statistics ----------------------------------------------
 
 # Calculates 95 % confidence intervals
