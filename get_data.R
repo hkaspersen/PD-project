@@ -77,8 +77,11 @@ odbcCloseAll()
 
 # Data wrangling
 rawdata_filtered <- filter_and_create_no(rawdata)
-data_list <- split(rawdata_filtered, rawdata_filtered$provenr)
-filtered_data_list <- lapply(data_list, function(x) select_analytes(x))
-filtered_data <- do.call(rbind, filtered_data_list)
-report <- suppressMessages(create_report(filtered_data))
+report <- suppressMessages(create_report(rawdata_filtered))
 report_filtered <- fix_report(report)
+erroneous_cases <- filter_errors(report_filtered)
+report_filtered2 <- report_filtered %>%
+  filter(provenr %not_in% erroneous_cases$provenr)
+report_list <- split(report_filtered2, f = report_filtered2$saksnr)
+saksnr_report <- lapply(report_list, function(x) create_saksnr_report(x)) %>%
+  bind_rows()
