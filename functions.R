@@ -451,6 +451,11 @@ filter_loknr_results <- function(df) {
   }
 }
 
+# Check for null integer
+is.integer0 <- function(x)
+{
+  is.integer(x) && length(x) == 0L
+}
 
 ## -------------------------------- Statistics ----------------------------------------------
 
