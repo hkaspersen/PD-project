@@ -284,7 +284,11 @@ create_report <- function(df) {
 func_paste2 <- function(x) paste(unique(x[!is.na(x)]), collapse = ", ")
 
 # scans through string of dates and returns the newest date
-scan_max <- function(x) max(scan(text = x, what = "", sep = ",", quiet = TRUE, strip.white = TRUE))
+scan_max <- function(x) max(scan(text = x, # throws error on empty cells, will fix later
+                                 what = "",
+                                 sep = ",",
+                                 quiet = TRUE,
+                                 strip.white = TRUE))
 
 # creates one line per sample in data frame, with conclusion for each method used
 fix_report <- function(df) {
@@ -349,47 +353,70 @@ create_saksnr_report <- function(df) {
     summarise_all(funs(func_paste2)) %>%
     ungroup() %>%
     rename("antall_prover" = provenr) %>%
-    mutate(
-      antall_prover = antall_prover %>%
-        strsplit(split = ",") %>%
-        sapply(function(x)
-          length(unique(x))),
-      Cellekultur = case_when(
-        grepl("Mistanke", Cellekultur) == TRUE ~ "Mistanke",
-        grepl("Påvist", Cellekultur) == TRUE ~ "Påvist",
-        grepl("Ikke påvist", Cellekultur) == TRUE ~ "Ikke påvist",
-        Cellekultur == "" ~ "Ikke utført"
+    mutate(antall_prover = antall_prover %>%
+             strsplit(split = ",") %>%
+             sapply(function(x)
+               length(unique(x)))) %>%
+    mutate_at(vars(c(
+      Cellekultur, Histopatologi, Immunhistokjemi, `RT-PCR`
+    )),
+    .fun = (
+      function(x)
+        case_when(
+          grepl("Mistanke", x) == TRUE ~ "Mistanke",
+          grepl("Påvist", x) == TRUE ~ "Påvist",
+          grepl("Ikke påvist", x) == TRUE ~ "Ikke påvist",
+          x == "" ~ "Ikke utført"
+        )
+    )) %>%
+    mutate( # set points for each result
+      CKP = case_when(
+        Cellekultur == "Ikke utført" ~ 0,
+        Cellekultur == "Ikke påvist" ~ 1,
+        Cellekultur == "Mistanke" ~ 100,
+        Cellekultur == "Påvist" ~ 1000
       ),
-      Histopatologi = case_when(
-        grepl("Mistanke", Histopatologi) == TRUE ~ "Mistanke",
-        grepl("Påvist", Histopatologi) == TRUE ~ "Påvist",
-        grepl("Ikke påvist", Histopatologi) == TRUE ~ "Ikke påvist",
-        Histopatologi == "" ~ "Ikke utført"
+      HPP = case_when(
+        Histopatologi == "Ikke utført" ~ 0,
+        Histopatologi == "Ikke påvist" ~ 1,
+        Histopatologi == "Mistanke" ~ 100,
+        Histopatologi == "Påvist" ~ 1000
       ),
-      Immunhistokjemi = case_when(
-        grepl("Mistanke", Immunhistokjemi) == TRUE ~ "Mistanke",
-        grepl("Påvist", Immunhistokjemi) == TRUE ~ "Påvist",
-        grepl("Ikke påvist", Immunhistokjemi) == TRUE ~ "Ikke påvist",
-        Immunhistokjemi == "" ~ "Ikke utført"
+      IHP = case_when(
+        Immunhistokjemi == "Ikke utført" ~ 0,
+        Immunhistokjemi == "Ikke påvist" ~ 1,
+        Immunhistokjemi == "Mistanke" ~ 100,
+        Immunhistokjemi == "Påvist" ~ 1000
       ),
-      `RT-PCR` = case_when(
-        grepl("Mistanke", `RT-PCR`) == TRUE ~ "Mistanke",
-        grepl("Påvist", `RT-PCR`) == TRUE ~ "Påvist",
-        grepl("Ikke påvist", `RT-PCR`) == TRUE ~ "Ikke påvist",
-        `RT-PCR` == "" ~ "Ikke utført"
+      RPP = case_when(
+        `RT-PCR` == "Ikke utført" ~ 0,
+        `RT-PCR` == "Ikke påvist" ~ 1,
+        `RT-PCR` == "Mistanke" ~ 100,
+        `RT-PCR` == "Påvist" ~ 1000
       )
     ) %>%
+    mutate(TOTSUM = CKP + HPP + IHP + RPP) %>%
     mutate(
-      methods = apply(.[c("Cellekultur", "Histopatologi", "Immunhistokjemi", "RT-PCR")], 1, function(x)
-        sum(x == "Påvist")),
-      Resultat = ifelse(methods > 1, "Påvist PD", "Mistanke om PD"),
-      Sekvensering = ifelse(Sekvensering == "", "Ikke utført", str_extract(Sekvensering, "SAV[0-9]"))
+      Resultat = case_when(
+        TOTSUM == 0 ~ "Ikke undersøkt",
+        TOTSUM > 0 &
+          TOTSUM < 100 ~ "Ikke påvist",
+        TOTSUM >= 100 &
+          TOTSUM < 2000 ~ "Mistanke",
+        TOTSUM >= 2000 ~ "Påvist"
+      ),
+      Sekvensering = ifelse(
+        Sekvensering == "",
+        "Ikke utført",
+        str_extract(Sekvensering, "SAV[0-9]")
+      )
     ) %>%
-    select(-methods)
+    select(-c(CKP,HPP,IHP,RPP,TOTSUM)) %>%
+    mutate_at(vars(c(avsluttet_dato,RT_PCR_avsl_dato)), # sets the newest date if more than one date
+              .fun = function(x) as.Date(sapply(x, scan_max))) %>%
+    mutate_all(funs(gsub("^$", NA, .))) # replace empty cells with NA
   return(df)
 }
-
-
 
 ## -------------------------------- Statistics ----------------------------------------------
 
