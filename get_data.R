@@ -85,3 +85,7 @@ report_filtered2 <- report_filtered %>%
 report_list <- split(report_filtered2, f = report_filtered2$saksnr)
 saksnr_report <- suppressWarnings(lapply(report_list, function(x) create_saksnr_report(x))) %>%
   bind_rows()
+
+prepped_loknr_report <- prep_loknr_report(saksnr_report)
+summarised_loknr_report <- lapply(test, function(x) filter_loknr_results(x)) %>%
+  bind_rows()
