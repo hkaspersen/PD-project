@@ -83,5 +83,5 @@ erroneous_cases <- filter_errors(report_filtered)
 report_filtered2 <- report_filtered %>%
   filter(provenr %not_in% erroneous_cases$provenr)
 report_list <- split(report_filtered2, f = report_filtered2$saksnr)
-saksnr_report <- lapply(report_list, function(x) create_saksnr_report(x)) %>%
+saksnr_report <- suppressWarnings(lapply(report_list, function(x) create_saksnr_report(x))) %>%
   bind_rows()
