@@ -418,6 +418,40 @@ create_saksnr_report <- function(df) {
   return(df)
 }
 
+# Prepares loknr report
+prep_loknr_report <- function(df) {
+  df <- df %>%
+    select(eier_lokalitetnr, Resultat, avsluttet_dato) %>%
+    rename("LokNr" = eier_lokalitetnr,
+           "Kjennelse" = Resultat,
+           "Dato" = avsluttet_dato) %>%
+    split(., f = .$LokNr)
+  return(df)
+}
+
+# Summarise results for loknr reports
+filter_loknr_results <- function(df) {
+  results <- df$Kjennelse
+  unique_res <- unique(results)
+  
+  if ("Påvist" %in% unique_res) {
+    ind <- which(df$Kjennelse == "Påvist")
+  } else {
+    if ("Mistanke" %in% unique_res) {
+      ind <- which(df$Kjennelse == "Mistanke")
+    }
+  }
+  
+  if (length(ind > 1)) {
+    maxdate <- max(df[c(ind),]$Dato)
+    row_id <- which(df$Dato == maxdate)
+    return(df[row_id,])
+  } else {
+    return(df)
+  }
+}
+
+
 ## -------------------------------- Statistics ----------------------------------------------
 
 # Calculates 95 % confidence intervals
